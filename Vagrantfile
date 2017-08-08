@@ -1,10 +1,12 @@
-Vagrant.configure("2") do |config|
+Vgrant.configure("2") do |config|
  config.vm.define "web1" do |web1|
   web1.vm.box = "centos/7"
   web1.vm.network "private_network", ip: "192.168.33.10"
    web1.vm.provision "shell", inline: <<-SHELL
      yum update
      yum install httpd -y
+     sudo firewall-cmd --permanent --add-service=https
+     sudo firewall-cmd --reload
    SHELL
  end
  config.vm.define "web2" do |web2|
@@ -13,6 +15,8 @@ Vagrant.configure("2") do |config|
    web2.vm.provision "shell", inline: <<-SHELL
      yum update
      yum install httpd -y
+     sudo firewall-cmd --permanent --add-service=https
+     sudo firewall-cmd --reload
    SHELL
  end
  config.vm.define "nginx" do |nginx|
@@ -23,6 +27,8 @@ Vagrant.configure("2") do |config|
    yum install nginx -y
    yum clean all
    yum update -y
+     sudo firewall-cmd --permanent --add-service=https
+     sudo firewall-cmd --reload
  SHELL
  end
 end
