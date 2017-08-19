@@ -4,7 +4,9 @@ Vagrant.configure("2") do |config|
   web1.vm.network "private_network", ip: "192.168.33.10"
    web1.vm.provision "shell", inline: <<-SHELL
      yum update -y
+     firewall-cmd  --add-service=http
      yum install httpd -y
+     service start httpd
    SHELL
  end
  config.vm.define "web2" do |web2|
@@ -13,6 +15,8 @@ Vagrant.configure("2") do |config|
    web2.vm.provision "shell", inline: <<-SHELL
      yum update -y
      yum install httpd -y
+     firewall-cmd --add-service=http
+     service start httpd
    SHELL
  end
  config.vm.define "nginx" do |nginx|
